@@ -66,8 +66,8 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
         }
     }
     
-    /// A UIColor value that determines text color of the placeholder label
-    @IBInspectable dynamic open var placeholderSpacing: CGFloat = 0.0 {
+    /// A spacing value that determines character spacing of the error/selected title label
+    @IBInspectable dynamic open var titleSpacing: CGFloat = 0.0 {
         didSet {
             updatePlaceholder()
         }
@@ -86,12 +86,12 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
                 attributedPlaceholder = NSAttributedString(
                     string: placeholder,
                     attributes: [
-                        NSAttributedStringKey.foregroundColor: placeholderColor, NSAttributedStringKey.font: font, NSAttributedStringKey.kern : placeholderSpacing]
+                        NSAttributedStringKey.foregroundColor: placeholderColor, NSAttributedStringKey.font: font]
                 )
             #else
                 attributedPlaceholder = NSAttributedString(
                     string: placeholder,
-                    attributes: [NSForegroundColorAttributeName: placeholderColor, NSFontAttributeName: font,NSKernAttributeName: placeholderSpacing]
+                    attributes: [NSForegroundColorAttributeName: placeholderColor, NSFontAttributeName: font]
                 )
             #endif
         }
@@ -442,6 +442,13 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
         }
         titleLabel.text = titleText
         titleLabel.font = titleFont
+        
+        // This will use for editing
+        #if swift(>=4.0)
+            titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSAttributedStringKey.kern : placeholderSpacing])
+        #else
+            titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSKernAttributeName: titleSpacing])
+        #endif
 
         updateTitleVisibility(animated)
     }
