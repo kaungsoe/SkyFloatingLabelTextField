@@ -65,6 +65,13 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
             updatePlaceholder()
         }
     }
+    
+    /// A UIColor value that determines text color of the placeholder label
+    @IBInspectable dynamic open var placeholderSpacing: CGFloat = 0.0 {
+        didSet {
+            updatePlaceholder()
+        }
+    }
 
     /// A UIFont value that determines text color of the placeholder label
     @objc dynamic open var placeholderFont: UIFont? {
@@ -79,13 +86,12 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
                 attributedPlaceholder = NSAttributedString(
                     string: placeholder,
                     attributes: [
-                        NSAttributedStringKey.foregroundColor: placeholderColor, NSAttributedStringKey.font: font
-                    ]
+                        NSAttributedStringKey.foregroundColor: placeholderColor, NSAttributedStringKey.font: font, NSAttributedStringKey.kern : placeholderSpacing]
                 )
             #else
                 attributedPlaceholder = NSAttributedString(
                     string: placeholder,
-                    attributes: [NSForegroundColorAttributeName: placeholderColor, NSFontAttributeName: font]
+                    attributes: [NSForegroundColorAttributeName: placeholderColor, NSFontAttributeName: font,NSKernAttributeName: placeholderSpacing]
                 )
             #endif
         }
@@ -113,7 +119,13 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
     }
 
     /// A UIColor value that determines the color used for the title label and line when the error message is not `nil`
-    @IBInspectable dynamic open var errorColor: UIColor = .red {
+    @IBInspectable dynamic open var errorPlaceHolderColor: UIColor = .red {
+        didSet {
+            updateColors()
+        }
+    }
+    
+    @IBInspectable dynamic open var errorTextColor: UIColor = .red {
         didSet {
             updateColors()
         }
@@ -385,7 +397,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
 
     fileprivate func updateLineColor() {
         if hasErrorMessage {
-            lineView.backgroundColor = errorColor
+            lineView.backgroundColor = errorPlaceHolderColor
         } else {
             lineView.backgroundColor = editingOrSelected ? selectedLineColor : lineColor
         }
@@ -393,7 +405,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
 
     fileprivate func updateTitleColor() {
         if hasErrorMessage {
-            titleLabel.textColor = errorColor
+            titleLabel.textColor = errorPlaceHolderColor
         } else {
             if editingOrSelected || isHighlighted {
                 titleLabel.textColor = selectedTitleColor
@@ -405,7 +417,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
 
     fileprivate func updateTextColor() {
         if hasErrorMessage {
-            super.textColor = errorColor
+            super.textColor = errorTextColor
         } else {
             super.textColor = cachedTextColor
         }
