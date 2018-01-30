@@ -467,7 +467,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
             
             if isMandatory {
                 let attributedString = NSMutableAttributedString(string: titleText! , attributes: [:])
-                attributedString.addAttribute(NSForegroundColorAttributeName, value: mandantoryColor , range: NSRange(location:titleLabel.text!.count-1,length:1))
+                attributedString.addAttribute(NSForegroundColorAttributeName, value: mandatoryColor , range: NSRange(location:titleLabel.text!.count-1,length:1))
             
                 attributedString.addAttributes([NSKernAttributeName: titleSpacing], range: NSRange(location:0,length:titleText!.count-1))
             
