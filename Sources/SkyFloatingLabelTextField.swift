@@ -36,6 +36,11 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
         }
     }
 
+    // MARK: for mandatory label single character color
+    open var isMandatory = false
+    let mandatoryColor = UIColor(red: 204/255, green: 162/255, blue: 85/255, alpha: 1)
+
+
     // MARK: Animation timing
 
     /// The value of the title appearing duration
@@ -445,9 +450,33 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
         
         // This will use for editing
         #if swift(>=4.0)
-            titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSAttributedStringKey.kern : placeholderSpacing])
+            
+            if isMandatory {
+                let attributedString = NSMutableAttributedString(string: titleText! , attributes: [:])
+                attributedString.addAttribute(NSAttributedStringKey.foregroundColor, value: mandatoryColor , range: NSRange(location:titleLabel.text!.count-1,length:1))
+                
+                attributedString.addAttributes([NSAttributedStringKey.kern : titleSpacing], range: NSRange(location:0,length:titleText!.count-1))
+                
+                titleLabel.attributedText = attributedString
+                
+            } else {
+                titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSAttributedStringKey.kern : titleSpacing])
+            }
+            
         #else
-            titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSKernAttributeName: titleSpacing])
+            
+            if isMandatory {
+                let attributedString = NSMutableAttributedString(string: titleText! , attributes: [:])
+                attributedString.addAttribute(NSForegroundColorAttributeName, value: mandantoryColor , range: NSRange(location:titleLabel.text!.count-1,length:1))
+            
+                attributedString.addAttributes([NSKernAttributeName: titleSpacing], range: NSRange(location:0,length:titleText!.count-1))
+            
+            
+                titleLabel.attributedText = attributedString
+            } else {
+                titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSKernAttributeName: titleSpacing])
+            }
+            
         #endif
 
         updateTitleVisibility(animated)
