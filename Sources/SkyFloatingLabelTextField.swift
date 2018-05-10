@@ -460,7 +460,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
                 titleLabel.attributedText = attributedString
                 
             } else {
-                titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSAttributedStringKey.kern : titleSpacing])
+                titleLabel.attributedText = NSAttributedString(string: titleText ?? "", attributes: [NSAttributedStringKey.kern : titleSpacing])
             }
             
         #else
@@ -474,7 +474,7 @@ open class SkyFloatingLabelTextField: UITextField { // swiftlint:disable:this ty
             
                 titleLabel.attributedText = attributedString
             } else {
-                titleLabel.attributedText = NSAttributedString(string: titleText!, attributes: [NSKernAttributeName: titleSpacing])
+                titleLabel.attributedText = NSAttributedString(string: titleText ?? "", attributes: [NSKernAttributeName: titleSpacing])
             }
             
         #endif
